@@ -22,9 +22,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-/*
-http://gitlab.65apps.com/65gb/static/raw/master/testTask.json
- */
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewEmployees;
@@ -45,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewEmployees.setAdapter(adapter);
 
         ApiFactory apiFactory = ApiFactory.getInstance();
-        ApiService apiService = ApiFactory.getApiService();
+        ApiService apiService = apiFactory.getApiService();
 
         compositeDisposable = new CompositeDisposable();
 

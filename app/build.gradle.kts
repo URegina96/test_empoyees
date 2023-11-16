@@ -40,19 +40,20 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    // RxJava
-    implementation("io.reactivex.rxjava2:rxjava:2.2.17")
-    // RxAndroid
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
-    // Для использования RxJava c Retrofit
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.7.1")
+// RxJava
+    implementation ("io.reactivex.rxjava2:rxjava:2.2.21")
+// RxAndroid
+    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+// Для использования RxJava с Retrofit
+    implementation ("com.squareup.retrofit2:adapter-rxjava2:2.7.1")
 
-    implementation("com.google.code.gson:gson:2.9.0")
+    implementation ("com.google.code.gson:gson:2.9.0")
 
-    // Retrofit & OkHttp
-    implementation ("com.squareup.retrofit2:retrofit:2.5.0")
+// Retrofit & OkHttp
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.0")
 
-    // JSON Converter
-    implementation ("com.squareup.retrofit2:converter-gson:2.5.0")
+// JSON Converter (Gson converter)
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
 }
