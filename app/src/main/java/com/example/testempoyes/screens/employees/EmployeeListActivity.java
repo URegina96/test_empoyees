@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.testempoyes.R;
@@ -15,6 +16,7 @@ import com.example.testempoyes.api.ApiFactory;
 import com.example.testempoyes.api.ApiService;
 import com.example.testempoyes.pojo.Employee;
 import com.example.testempoyes.pojo.EmployeeResponse;
+import com.example.testempoyes.pojo.Specialty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,14 @@ public class EmployeeListActivity extends AppCompatActivity {                   
             @Override
             public void onChanged(List<Employee> employees) {                                          //всякий раз, когда будут изменяться данные в бд, будет вызываться метод onChanged
                 adapter.setEmployees(employees);
+                if (employees != null) {
+                    for (Employee employee : employees) {
+                        List<Specialty> specialties = employee.getSpecialty();
+                        for (Specialty specialty : specialties) {
+                            Log.i("Speciality", specialty.getName());
+                        }
+                    }
+                }
             }
         });
         viewModel.getErrors().observe(this, new Observer<Throwable>() {

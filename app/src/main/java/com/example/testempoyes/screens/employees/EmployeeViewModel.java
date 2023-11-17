@@ -98,6 +98,10 @@ public class EmployeeViewModel extends AndroidViewModel {
         ApiService apiService = apiFactory.getApiService();
 
         compositeDisposable = new CompositeDisposable();
+        /*
+           пример запроса, когда нужно передавать различные параметры
+           Disposable disposable = apiService.getEmployees(534534, и т.д.)
+         */
 
         Disposable disposable = apiService.getEmployees()
                 .subscribeOn(Schedulers.io())
