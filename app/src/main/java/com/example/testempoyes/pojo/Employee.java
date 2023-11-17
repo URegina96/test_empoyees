@@ -1,5 +1,8 @@
 package com.example.testempoyes.pojo;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,24 +10,26 @@ import java.util.List;
 
 import javax.annotation.processing.Generated;
 
-@Generated("jsonschema2pojo")
+@Entity(tableName = "employees")
 
 public class Employee {
+    public int getId() {return id;}
+
+    public void setId(int id) {this.id = id;}
+
+    @PrimaryKey(autoGenerate = true)
+    public int id;
     @SerializedName("f_name")
-    @Expose
-    private String fName;
+    public String fName;
     @SerializedName("l_name")
-    @Expose
-    private String lName;
+    public String lName;
     @SerializedName("birthday")
-    @Expose
-    private String birthday;
+    public String birthday;
     @SerializedName("avatr_url")
-    @Expose
-    private String avatrUrl;
-    @SerializedName("specialty")
-    @Expose
-    private List<Specialty> specialty;
+    public String avatrUrl;
+//    @SerializedName("specialty")
+//    @Expose
+//    private List<Specialty> specialty=null;
 
     public String getfName() {
         return fName;
@@ -58,11 +63,4 @@ public class Employee {
         this.avatrUrl = avatrUrl;
     }
 
-    public List<Specialty> getSpecialty() {
-        return specialty;
-    }
-
-    public void setSpecialty(List<Specialty> specialty) {
-        this.specialty = specialty;
-    }
 }

@@ -1,6 +1,8 @@
 package com.example.testempoyes.screens.employees;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,20 +25,16 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class EmployeeListActivity extends AppCompatActivity implements EmployeesListView {              //активность или фрагмент , которые реализуют интерфейс
+public class EmployeeListActivity extends AppCompatActivity {                                           //активность или фрагмент , которые реализуют интерфейс
     private RecyclerView recyclerViewEmployees;
     private EmployeeAdapter adapter;
-    private EmployeeListPresenter presenter;
+    private EmployeeViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new EmployeeListPresenter(this);                                                //работает с данными, в качестве параметра передали саму активность
-                                                                                                        /*
-                                                                                                        передали элементы графического интерфейса
-                                                                                                         */
         recyclerViewEmployees = findViewById(R.id.recyclerViewEmployees);
         adapter = new EmployeeAdapter();
         adapter.setEmployees(new ArrayList<Employee>());
@@ -44,22 +42,23 @@ public class EmployeeListActivity extends AppCompatActivity implements Employees
         recyclerViewEmployees.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewEmployees.setAdapter(adapter);
 
-        presenter.loadData();                                                                           //сказали "загрузи для нас данные"
-    }
+        viewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
 
-    @Override
-    protected void onDestroy() {
-        presenter.disposeDisposable();
-        super.onDestroy();
-    }
-
-    @Override
-    public void showData(List<Employee> employees) {
-        adapter.setEmployees(employees);                                                                //устанавливается у адаптера список сотрудников
-    }
-
-    @Override
-    public void showError() {
-        Toast.makeText(this, "Ошибка, проверьте соединение с интернетом ", Toast.LENGTH_SHORT).show();
+        viewModel.getEmloyees().observe(this, new Observer<List<Employee>>() {                     //подписываемся на изменения в бд
+            @Override
+            public void onChanged(List<Employee> employees) {                                          //всякий раз, когда будут изменяться данные в бд, будет вызываться метод onChanged
+                adapter.setEmployees(employees);
+            }
+        });
+        viewModel.getErrors().observe(this, new Observer<Throwable>() {
+            @Override
+            public void onChanged(Throwable throwable) {
+                if (throwable != null) {
+                    Toast.makeText(EmployeeListActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    viewModel.clearErrors();
+                }
+            }
+        });
+        viewModel.loadData();                                                                          //отображаем список на экране активности
     }
 }
